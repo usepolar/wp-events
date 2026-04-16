@@ -1,6 +1,8 @@
 {
     "name": "polar/events",
+    "description": "A WordPress plugin to manage events",
     "type": "wordpress-plugin",
+    "license": "GPL-2.0-or-later",
     "autoload": {
         "psr-4": {
             "Polar\\Events\\": "src/"
