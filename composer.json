@@ -14,5 +14,8 @@
             "email": "victorg@hey.com"
         }
     ],
-    "require": {}
+    "require": {},
+    "extra": {
+        "installer-name": "polar-events"
+    }
 }
