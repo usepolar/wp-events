@@ -1,0 +1,16 @@
+{
+    "name": "polar/events",
+    "type": "wordpress-plugin",
+    "autoload": {
+        "psr-4": {
+            "Polar\\Events\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Victor Guerrero",
+            "email": "victorg@hey.com"
+        }
+    ],
+    "require": {}
+}
