@@ -1,0 +1,37 @@
+# Git attributes for proper package distribution
+
+# Exclude development files from exports (composer install --prefer-dist)
+/.gitattributes export-ignore
+/.gitignore export-ignore
+/.phpunit.result.cache export-ignore
+/phpunit.xml export-ignore
+/tests export-ignore
+
+# Exclude system files
+/.DS_Store export-ignore
+
+# Exclude CI/CD files (when added later)
+/.github export-ignore
+/.gitlab-ci.yml export-ignore
+/circle.yml export-ignore
+/appveyor.yml export-ignore
+
+# Exclude development docs (keep README.md as it's user-facing)
+/CONTRIBUTING.md export-ignore
+/CHANGELOG.md export-ignore
+/docs export-ignore
+
+# Line ending normalization
+* text=auto
+
+# PHP files
+*.php text eol=lf
+
+# JSON files
+*.json text eol=lf
+
+# Markdown files
+*.md text eol=lf
+
+# XML files
+*.xml text eol=lf

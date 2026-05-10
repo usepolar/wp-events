@@ -3,18 +3,31 @@
     "description": "A WordPress plugin to manage events",
     "type": "wordpress-plugin",
     "license": "GPL-2.0-or-later",
-    "autoload": {
-        "psr-4": {
-            "Polar\\Events\\": "src/"
-        }
-    },
     "authors": [
         {
             "name": "Victor Guerrero",
             "email": "victorg@hey.com"
         }
     ],
-    "require": {},
+    "require": {
+        "nesbot/carbon": "^3.11"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Polar\\Events\\": "src/"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Polar\\Events\\Tests\\": "tests/"
+        }
+    },
     "extra": {
         "installer-name": "polar-events"
     }
