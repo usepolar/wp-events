@@ -244,12 +244,12 @@ class RecurringEvent extends Event
      * @return string
      */
     public function getDateString(
-        ?string $dateFormat = 'LL',
+        ?string $dateFormat = 'DD.MM.YYYY',
         ?string $timeFormat = 'HH:mm',
         bool $includeTime = true
     ): string
     {
-        $dateFormat = $dateFormat ?? 'LL';
+        $dateFormat = $dateFormat ?? 'DD.MM.YYYY';
         $timeFormat = $timeFormat ?? 'HH:mm';
 
         if ($this->frequency === 'P1W' || $this->frequency === 'weekly') {
@@ -308,7 +308,7 @@ class RecurringEvent extends Event
         );
         $timeRange = $this->getTimeString();
 
-        return sprintf(__('Every %s, %s, %s', 'polar-events'), $daysString, $dateRange, $timeRange);
+        return "Every {$daysString}\n{$dateRange}\n{$timeRange}";
     }
 
     /**

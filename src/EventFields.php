@@ -141,7 +141,7 @@ class EventFields
                     ConditionalLogic::where('recurrence_type', '==', 'recurring')
                 ]),
             Text::make(__('Location', 'polar-events'), 'location'),
-            Textarea::make(__('Additional date notes', 'polar-events'), 'additional_date_notes')
+            Textarea::make(__('Comments', 'polar-events'), 'comments')
                 ->rows(3)
                 ->newLines('br'),
         ];
