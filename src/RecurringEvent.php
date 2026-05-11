@@ -308,7 +308,13 @@ class RecurringEvent extends Event
         );
         $timeRange = $this->getTimeString();
 
-        return "Every {$daysString}\n{$dateRange}\n{$timeRange}";
+        return sprintf(
+            "%s\n%s\n%s",
+            /* translators: %s: days string */
+            sprintf(__('Every %s', 'polar-events'), $daysString),
+            $dateRange,
+            $timeRange
+        );
     }
 
     /**
@@ -347,6 +353,12 @@ class RecurringEvent extends Event
         );
         $timeRange = $this->getTimeString();
 
-        return sprintf(__('Every %s %s of the month, %s, %s', 'polar-events'), $ordinal, $dayName, $dateRange, $timeRange);
+        return sprintf(
+            "%s\n%s\n%s",
+            /* translators: 1: ordinal (e.g. "first"), 2: day name (e.g. "Monday") */
+            sprintf(__('Every %1$s %2$s of the month', 'polar-events'), $ordinal, $dayName),
+            $dateRange,
+            $timeRange
+        );
     }
 }

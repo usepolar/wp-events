@@ -3,9 +3,9 @@
 namespace Polar\Events\Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
-use Polar\Events\SimpleEvent;
+use Polar\Events\SingleEvent;
 
-class SimpleEventTest extends TestCase
+class SingleEventTest extends TestCase
 {
     public function test_get_date_range_string_formats_requested_cases(): void
     {
@@ -14,7 +14,7 @@ class SimpleEventTest extends TestCase
             'start_date' => '20261023',
             'end_date' => '20261023',
         ];
-        $event = new SimpleEvent(101, $sameDayAllDay);
+        $event = new SingleEvent(101, $sameDayAllDay);
         $this->assertEquals('23.10.2026', $event->getDateRangeString());
 
         $sameDayWithStartTime = [
@@ -24,7 +24,7 @@ class SimpleEventTest extends TestCase
             'start_time' => '12:00:00',
             'end_time' => '',
         ];
-        $event = new SimpleEvent(102, $sameDayWithStartTime);
+        $event = new SingleEvent(102, $sameDayWithStartTime);
         $this->assertEquals('23.10.2026 12:00', $event->getDateRangeString(includeTime: true));
 
         $multiDayAllDay = [
@@ -32,7 +32,7 @@ class SimpleEventTest extends TestCase
             'start_date' => '20261023',
             'end_date' => '20261025',
         ];
-        $event = new SimpleEvent(103, $multiDayAllDay);
+        $event = new SingleEvent(103, $multiDayAllDay);
         $this->assertEquals('23.10.2026 - 25.10.2026', $event->getDateRangeString());
 
         $sameDayWithStartAndEndTime = [
@@ -42,7 +42,7 @@ class SimpleEventTest extends TestCase
             'start_time' => '10:00:00',
             'end_time' => '14:00:00',
         ];
-        $event = new SimpleEvent(104, $sameDayWithStartAndEndTime);
+        $event = new SingleEvent(104, $sameDayWithStartAndEndTime);
         $this->assertEquals('23.10.2026 10:00 - 14:00', $event->getDateRangeString(includeTime: true));
 
         $multiDayWithStartAndEndTime = [
@@ -52,7 +52,7 @@ class SimpleEventTest extends TestCase
             'start_time' => '10:00:00',
             'end_time' => '14:00:00',
         ];
-        $event = new SimpleEvent(105, $multiDayWithStartAndEndTime);
+        $event = new SingleEvent(105, $multiDayWithStartAndEndTime);
         $this->assertEquals('23.10.2026 10:00 - 25.10.2026 14:00', $event->getDateRangeString(includeTime: true));
     }
 
@@ -63,7 +63,7 @@ class SimpleEventTest extends TestCase
             'start_date' => '20260427',
             'end_date' => '20260427'
         ];
-        $event = new SimpleEvent(123, $data);
+        $event = new SingleEvent(123, $data);
 
         $days = $event->getDays();
 
@@ -78,7 +78,7 @@ class SimpleEventTest extends TestCase
             'start_date' => '20260427',
             'end_date' => '20260429'
         ];
-        $event = new SimpleEvent(456, $data);
+        $event = new SingleEvent(456, $data);
 
         $days = $event->getDays();
 
@@ -94,7 +94,7 @@ class SimpleEventTest extends TestCase
             'start_date' => '20260430',
             'end_date' => '20260502'
         ];
-        $event = new SimpleEvent(789, $data);
+        $event = new SingleEvent(789, $data);
 
         $days = $event->getDays();
 
@@ -110,7 +110,7 @@ class SimpleEventTest extends TestCase
             'start_date' => '20261230',
             'end_date' => '20270102'
         ];
-        $event = new SimpleEvent(999, $data);
+        $event = new SingleEvent(999, $data);
 
         $days = $event->getDays();
 

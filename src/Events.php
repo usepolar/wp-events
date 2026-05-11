@@ -100,7 +100,7 @@ class Events
         load_plugin_textdomain(
             'polar-events',
             false,
-            dirname(plugin_basename(POLAR_EVENTS_PLUGIN_FILE)) . '/languages'
+            dirname(plugin_basename(POLAR_EVENTS_PLUGIN_FILE)) . '/lang'
         );
     }
 

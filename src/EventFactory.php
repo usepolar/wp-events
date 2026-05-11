@@ -23,7 +23,7 @@ class EventFactory
 
         switch ($recurrenceType) {
             case 'single':
-                return new SimpleEvent($postId);
+                return new SingleEvent($postId);
 
             case 'recurring':
                 return new RecurringEvent($postId);
@@ -32,8 +32,8 @@ class EventFactory
                 return new MultipleEvent($postId);
 
             default:
-                // Default to simple event if type is not specified
-                return new SimpleEvent($postId);
+                // Default to single event if type is not specified
+                return new SingleEvent($postId);
         }
     }
 

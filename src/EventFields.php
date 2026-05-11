@@ -19,7 +19,7 @@ class EventFields
 {
     public function __construct()
     {
-        add_action('acf/init', [$this, 'register']);
+        add_action('acf/include_fields', [$this, 'register']);
         add_action('acf/save_post', [$this, 'syncMultipleEventMeta'], 20);
         add_action('acf/save_post', [$this, 'clearAllDayEventTimes'], 30);
     }
@@ -27,6 +27,7 @@ class EventFields
     public function register()
     {
         register_extended_field_group([
+            'key' => 'group_polar_events_details',
             'title' => __('Event Details', 'polar-events'),
             'fields' => $this->fields(),
             'location' => $this->location(),
@@ -41,6 +42,7 @@ class EventFields
     {
         return [
             RadioButton::make(__('Recurrence Type', 'polar-events'), 'recurrence_type')
+                ->key('field_polar_events_recurrence_type')
                 ->choices([
                     'single' => __('Single', 'polar-events'),
                     'multiple' => __('Multiple dates', 'polar-events'),
@@ -49,66 +51,80 @@ class EventFields
                 ->default('single')
                 ->required(),
             TrueFalse::make(__('All-day', 'polar-events'), 'all_day')
+                ->key('field_polar_events_all_day')
                 ->message(__('Event lasts all day', 'polar-events'))
                 ->default(false),
             DatePicker::make(__('Start Date', 'polar-events'), 'start_date')
+                ->key('field_polar_events_start_date')
                 ->column(50)
                 ->format('Ymd')
                 ->conditionalLogic([
-                    ConditionalLogic::where('recurrence_type', '!=', 'multiple')
+                    ConditionalLogic::where('recurrence_type', '!=', 'multiple', null, 'field_polar_events_recurrence_type')
                 ])
                 ->required(),
             TimePicker::make(__('Start Time', 'polar-events'), 'start_time')
+                ->key('field_polar_events_start_time')
                 ->column(50)
                 ->displayFormat('H:i')
                 ->format('H:i:s')
                 ->conditionalLogic([
-                    ConditionalLogic::where('all_day', '==', false)->and('recurrence_type', '!=', 'multiple')
+                    ConditionalLogic::where('all_day', '==', false, null, 'field_polar_events_all_day')
+                        ->and('recurrence_type', '!=', 'multiple', null, 'field_polar_events_recurrence_type')
                 ])
                 ->required(),
             DatePicker::make(__('End Date', 'polar-events'), 'end_date')
+                ->key('field_polar_events_end_date')
                 ->column(50)
                 ->format('Ymd')
                 ->conditionalLogic([
-                    ConditionalLogic::where('recurrence_type', '!=', 'multiple')
+                    ConditionalLogic::where('recurrence_type', '!=', 'multiple', null, 'field_polar_events_recurrence_type')
                 ]),
             TimePicker::make(__('End Time', 'polar-events'), 'end_time')
+                ->key('field_polar_events_end_time')
                 ->column(50)
                 ->displayFormat('H:i')
                 ->format('H:i:s')
                 ->conditionalLogic([
-                    ConditionalLogic::where('all_day', '==', false)->and('recurrence_type', '!=', 'multiple')
+                    ConditionalLogic::where('all_day', '==', false, null, 'field_polar_events_all_day')
+                        ->and('recurrence_type', '!=', 'multiple', null, 'field_polar_events_recurrence_type')
                 ]),
             Repeater::make(__('Event dates', 'polar-events'), 'event_dates')
+                ->key('field_polar_events_event_dates')
                 ->fields([
                     DatePicker::make(__('Start Date', 'polar-events'), 'start_date')
+                        ->key('field_polar_events_event_dates_start_date')
                         ->format('Ymd')
                         ->required(),
                     TimePicker::make(__('Start Time', 'polar-events'), 'start_time')
+                        ->key('field_polar_events_event_dates_start_time')
                         ->displayFormat('H:i')
                         ->format('H:i:s')
                         ->conditionalLogic([
-                            ConditionalLogic::where('all_day', '==', false)
+                            ConditionalLogic::where('all_day', '==', false, null, 'field_polar_events_all_day')
                         ])
                         ->required(),
                     DatePicker::make(__('End Date', 'polar-events'), 'end_date')
+                        ->key('field_polar_events_event_dates_end_date')
                         ->format('Ymd'),
                     TimePicker::make(__('End Time', 'polar-events'), 'end_time')
+                        ->key('field_polar_events_event_dates_end_time')
                         ->displayFormat('H:i')
                         ->format('H:i:s')
                         ->conditionalLogic([
-                            ConditionalLogic::where('all_day', '==', false)
+                            ConditionalLogic::where('all_day', '==', false, null, 'field_polar_events_all_day')
                         ]),
                 ])
                 ->minRows(2)
                 ->layout('table')
                 ->button(__('Add date', 'polar-events'))
                 ->conditionalLogic([
-                    ConditionalLogic::where('recurrence_type', '==', 'multiple')
+                    ConditionalLogic::where('recurrence_type', '==', 'multiple', null, 'field_polar_events_recurrence_type')
                 ]),
             Group::make(__('Recurrence', 'polar-events'), 'recurrence')
+                ->key('field_polar_events_recurrence')
                 ->fields([
                     Checkbox::make(__('Day(s) of the week', 'polar-events'), 'byDay')
+                        ->key('field_polar_events_recurrence_by_day')
                         ->choices([
                             'MO' => __('Monday', 'polar-events'),
                             'TU' => __('Tuesday', 'polar-events'),
@@ -120,6 +136,7 @@ class EventFields
                         ])
                         ->layout('horizontal'),
                     Checkbox::make(__('Week(s) of the month', 'polar-events'), 'byMonthWeek')
+                        ->key('field_polar_events_recurrence_by_month_week')
                         ->choices([
                             '1' => __('First', 'polar-events'),
                             '2' => __('Second', 'polar-events'),
@@ -129,6 +146,7 @@ class EventFields
                         ])
                         ->layout('horizontal'),
                     Select::make(__('Frequency', 'polar-events'), 'frequency')
+                        ->key('field_polar_events_recurrence_frequency')
                         ->choices([
                             'P1D' => __('Daily', 'polar-events'),
                             'P1W' => __('Weekly', 'polar-events'),
@@ -138,10 +156,12 @@ class EventFields
                 ])
                 ->layout('row')
                 ->conditionalLogic([
-                    ConditionalLogic::where('recurrence_type', '==', 'recurring')
+                    ConditionalLogic::where('recurrence_type', '==', 'recurring', null, 'field_polar_events_recurrence_type')
                 ]),
-            Text::make(__('Location', 'polar-events'), 'location'),
+            Text::make(__('Location', 'polar-events'), 'location')
+                ->key('field_polar_events_location'),
             Textarea::make(__('Comments', 'polar-events'), 'comments')
+                ->key('field_polar_events_comments')
                 ->rows(3)
                 ->newLines('br'),
         ];

@@ -5,9 +5,9 @@ namespace Polar\Events;
 use Carbon\CarbonPeriod;
 
 /**
- * Simple event that occurs on a single day or date range
+ * Single event that occurs on a single day or date range
  */
-class SimpleEvent extends Event
+class SingleEvent extends Event
 {
     /**
      * Get all days this event occurs on

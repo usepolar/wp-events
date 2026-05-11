@@ -239,9 +239,9 @@ class RestAPI
         $diff = $today->diff($eventDate);
 
         if ($diff->days === 0 && $diff->invert === 0) {
-            return __('Avui', 'polar-events');
+            return __('Today', 'polar-events');
         } elseif ($diff->days === 1 && $diff->invert === 0) {
-            return __('Demà', 'polar-events');
+            return __('Tomorrow', 'polar-events');
         } else {
             // Format based on current language
             $locale = get_locale();
